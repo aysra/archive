@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<title>Stream Archiving Guide (Windows)</title>
+<style>
+  body {
+    background: Black;
+    color: Gainsboro;
+	font-family: Sans-Serif;
+	}
+  main {
+    margin-bottom: 200%;
+  }
+  .general-text {
+	margin-left: 150px;
+  }
+  h1 {
+	margin-left: 150px;
+	font-size: 1.5em;
+  }
+  h2 {
+	margin-left: 150px;
+	font-size: 1.2em;
+	
+  }
+  h3 {
+	margin-left: 165px;
+	font-size: 1.1em;	
+  }
+  h4 {
+  	margin-left: 180px;
+    font-size: 0.9em;
+	font-weight: normal;
+  }
+  .floating-menu {
+    font-family: sans-serif;
+    background: DimGrey;
+    padding: 5px;;
+    width: 130px;
+    z-index: 100;
+    position: fixed;
+  }
+  .floating-menu a, 
+  .floating-menu h3 {
+    font-size: 0.9em;
+    display: block;
+    margin: 0 0.5em;
+    color: Gainsboro;
+  }
+  a:link,a:visited{text-decoration:underline; color:#c6d9f0;}
+  a:hover{text-decoration:underline; color:#ffffff;}
+  
+  img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  margin-left: 5px;
+}
+</style>
+<body>
+  <nav class="floating-menu">
+    <h3>Floating Menu</h3>
+    <a href="#download">Download</a>
+    <a href="#install">Installation</a>
+    <a href="#basic">Basic Usage</a>
+    <a href="#qol">QoL Tips</a>
+  </nav>
+  <h1>Stream Archiving Guide (for Windows, mainly)</h1>
+  <br /> 
+  <h2><a id="download">Download</a></h2>
+  <h3>yt-dlp interface - <a href="https://github.com/ErrorFlynn/ytdlp-interface">https://github.com/ErrorFlynn/ytdlp-interface</a></h3>
+  <h4>GUI for yt-dlp, as well as a handy tool for checking and obtaining updates for yt-dlp and ffmpeg.<br />
+
+	<img src="01-ytdlp interface.png" alt="screenshot of ytdlp infereface update page" /><br />
+	Alternatively, you can download yt-dlp and ffmpeg yourself at <a href="https://github.com/yt-dlp">https://github.com/yt-dlp</a><br />
+  </h4>
+  <h3>ytarchive - <a href="https://github.com/Kethsar/ytarchive">https://github.com/Kethsar/ytarchive</a></h3>
+  <h4>Easiest tool to monitor channels for live streams and download from the start even if you start half way.<br /></h4>
+
+  <br /> 
+  <h2><a id="install">Installation</a></h2>
+  <h3>Step 1: Extract all the above to an easily accessable folder. </h3>
+  <h4>Personally I prefer to keeping them all in the same place, for example: <strong>C:\yt\</strong><br /> 
+  
+  <h3>Step 2: Set up PATH to the folder (To run the exe from any location)</h3>
+  <h4> Typing "<strong>Environment</strong>" in the startmenu should bring up "<strong>Edit System Environment Varibles</strong>". <br />
+  <br />
+  If not, Right-click the Windows icon &gt; "<strong>System</strong>" &gt; "<strong>Related Settings</strong>" (to the right)&gt; "<strong>Advanced System Settings</strong>" &gt; "<strong>Environment Variables</strong>" &gt; <strong>PATH</strong> (the "system variable" one in the lower table)<br />Add a new entry with the path in step 2.</p>
+  <img src="02-enviornment variable.png" alt="getting to environment variables" />
+  <img src="03-PATH.png" alt="path settings in environment variables" />
+  </h4>
+  
+  <br />
+   
+  <h2><a id="basic">Basic Usage</a></h2>
+  
+  <h3>Archiving Ongoing Streams using ytarchive</h3>
+  <h4>Browse to the folder you want to save the vod to. Type "cmd" in the address bar to open the command prompt. <br />
+  <img src="04-cmd.gif" alt="cmd prompt from file explorer " /> 
+  </h4>
+  <h2><a id="qol">QoL Tips</a></h2>
+ 
+</body>
