@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>Stream Archiving Guide (Windows)</title>
+<title>Stream Archiving Guide</title>
 <style>
   body {
     background: Black;
@@ -12,18 +12,27 @@
   .general-text {
 	margin-left: 160px;
   }
+  a:link,a:visited{text-decoration:underline; color:#c6d9f0;}
+  a:hover{text-decoration:underline; color:#ffffff;}
+  img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 5px 5px;
+  }
   h1 {
 	margin-left: 160px;
-	font-size: 1.5em;
+	font-size: 1.3em;
   }
   h2 {
 	margin-left: 160px;
-	font-size: 1.2em;
-	
+	font-size: 1.1em;
+	border-bottom: 2px solid DimGrey;
+	display: inline;	
   }
   h3 {
 	margin-left: 175px;
-	font-size: 1.1em;	
+	font-size: 1em;	
   }
   h4 {
   	margin-left: 185px;
@@ -36,20 +45,22 @@
    text-align: left;
    color: white;
    font-family: Sans-Serif;
-   margin-left: 5px;
-   margin-right: 5px;
+   margin: 10px 5px;
    padding: 5px;
   }
   .url {
   text-decoration: underline; 
   color: #ccffff;
   }
-  .mod {
-  color: orange;
+  .opt {
+  color: lightgreen;
   }
   .emp {
   color:lightcoral; 
   font-weight: bold;
+  }
+  .indent {
+  margin-left:5px;
   }
   .floating-menu {
     font-family: sans-serif;
@@ -66,14 +77,6 @@
     margin: 0 0.5em;
     color: Gainsboro;
   }
-  a:link,a:visited{text-decoration:underline; color:#c6d9f0;}
-  a:hover{text-decoration:underline; color:#ffffff;}
-  img {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  margin-left: 5px;
-}
 
 </style>
 <main>
@@ -82,14 +85,21 @@
 	<h3>Menu</h3><br />
     <a href="#download"><b>Download</b></a><br />
     <a href="#install"><b>Installation</b></a><br />
-    <a href="#basic"><b>Basic bsage</b></a><br />
+    <a href="#basic"><b>Basic usage</b></a><br />
+	<a href="#cookies"><b>Cookies</b></a><br />
     <a href="#ytaqol"><b>ytarchive tips</b></a>
-	<a href="#ytmon">-monitor channels</a><br />
-	<a href="#ytdqol"><b>yt-dlp tips</b></a><br />
-	<a href="#bat"><b>1-click bat files</b></a><br />
+	<a href="#ytamon">-monitor channels</a>
+	<a href="#ytastop">-stop recording</a><br />
+	<a href="#ytdqol"><b>yt-dlp tips</b></a>
+	<a href="#ytdlive">-livestreams</a>
+	<a href="#ytdefault">-default settings</a><br />
+	<a href="#bat"><b>1-click pre-sets</b></a><br />
   </nav>
-  <h1>Stream Archiving Guide (for Windows, mainly)</h1>
-  <br /> 
+  
+  <h1>Stream Archiving Guide </h1>
+ <h4 style="margin-left: 160px">This mostly assume you are using windows, since if you are on linux I assume you know what you're doing, and I know nothing about macos - the commands should still be usable tho'.</h4>
+  <br />
+
   <h2><a id="download">Download</a></h2>
   <h3>yt-dlp interface - <a href="https://github.com/ErrorFlynn/ytdlp-interface">https://github.com/ErrorFlynn/ytdlp-interface</a></h3>
   <h4>GUI for yt-dlp, as well as a handy tool for checking and obtaining updates for yt-dlp and ffmpeg.<br />
@@ -123,47 +133,119 @@
   Type in the following commands and follow the prompt:
   <div class="cmds">ytarchive <span class="url">https://www.youtube.com/watch?v=######</span></div><br />
   Or the following skip the prompt: 
-  <div class="cmds">ytarchive <span class="mod">-w</span> <span class="url">https://www.youtube.com/watch?v=######</span> <span class="mod">best</span> </div>
-  (<span class="mod">-w</span>: wait for scheduled time, <span class="mod">best</span>: best quality. You can replace these with <span class="mod">-r 30</span> (poll every 30s), and list preferred bitrate if you a smaller file - include "best" as a failsafe in case the prefered bitrate is not avalible, eg: <span class="mod">720/720p60/best</span>) <br />
+  <div class="cmds">ytarchive <span class="opt">-w</span> <span class="url">https://www.youtube.com/watch?v=######</span> <span class="opt">best</span> </div>
+  (<span class="opt">-w</span>: wait for scheduled time, <span class="opt">best</span>: best quality. You can replace these with <span class="opt">-r 30</span> (poll every 30s), and list preferred bitrate if you a smaller file - include "best" as a failsafe in case the prefered bitrate is not avalible, eg: <span class="opt">720/720p60/best</span>) <br />
   <br /> 
   </h4> 
   
-  <h3>Monito a channel for livestreams</h3>
-  <h4>You can monitor a channel for any livestreams, even before a waiting room was created by using the following commands with a <span class="emp">/live</span> added to the <strong>channel url</strong><br />
-    <div class="cmds">ytarchive <span class="mod">--monitor-channel</span> <span class="url">https://www.youtube.com/channel/######<span class="emp">/live</span></span> <span class="mod">best</span> </div>
-	As usual, you can specify the preferred bitrate instead of using best.<br />
-	Once it finishes downloading and merging a stream, it will go right back to monitoring for the next stream - make sure you keep an eye on the storage space if you plan to leave this running 24/7.
- </h4> 
+  <h3>Downloading VODs with yt-dlp</h3>
+  <h4>The yt-dlp interface GUI should be pretty self explainatory. <br />
+  Here are a few useful options that you can use in the command or add to the "custom argument" field of the GUI:<br />
+  <span class="opt indent">--download-archive</span> <span class="emp">"c:/yt/database.txt"</span> - save a list of downloaded videos so you don't accidentally re-download again<br />
+  <span class="opt indent">--embed-metadata --embed-thumbnail</span> - embed the thumbnail and metadata into the vod (only supported by mkv and mp4)<br /></span>
+  <span class="opt indent">--extract-audio --audio-format</span> <span class="emp">mp3</span> - extract audio into mp3/aac/m4a/opus/vorbis/flac/alac/wav. </span><br />
+  <span class="opt indent">--download-sections</span> <span class="emp">"  <b>*</b>30:15-55:00"</span> - download only the selected time portion of a vod. Keep the * before the time range.<br />
+  <br />
+ 
+  </h4>
   
-  
+  <h2><a id="cookies">Cookies for members-only streams</a></h2>
+ <h4 style="margin-left: 160px">
+  If you have joint memberships and would like to archive mengen streams, you need to login in a browser and do one of the following:<br />
+  </h4>
+  <h3>Option 1: Extract cookies.txt from your browser</b></h3>
+  <h4>  This can be used <b>by both yt-dlp and ytarchive</b>, plus the file can be re-used on different PC / user profiles.<br />
+  <ol style="padding-left: 20px;">
+  <li>Download the appropriate browser plugin (<a href="https://chrome.google.com/webstore/detail/get-cookiestxt/bgaddhkoddajcdgocldbbfleckgcbcid">Chrome</a>, <a href="https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/">Firefox</a>, <a href="https://microsoftedge.microsoft.com/addons/detail/get-cookiestxt/helleheikohejgehaknifdkcfcmceeip">Edge</a>). 
+  </li><br />
+  <li>Go to a youtube page while logged into your account and extract the cookies using the plugin.
+  </li><br />
+  <li>Place the file somewhere easy to access. For example, <span class="emp">C:\yt\cookies.txt</span> You would then use it with <span class="opt">--cookies "path-to-the-file"</span>
+  </li></ol>
+  Example:
+  <div class="cmds">ytarchive <span class="opt">--cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" <span class="url">https://www.youtube.com/watch?v=######</span> <span class="opt">best</span></div>
+
+  <div class="cmds">yt-dlp <span class="opt">--cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" <span class="url">https://www.youtube.com/playlist?list=UUMO_MembersOnlyPlayList</span></div>
+  <span class="indent">
+  (you can find the mengen playlist of any channel by replacing the "UC" part of their channel with "UMMO", eg, youtube.com/channel/<u>UC</u><span class="emp">ckdfYDGrjojJM28n5SHYrA</span> becomes youtube.com/playlist?list=<u>UUMO</u><span class="emp">ckdfYDGrjojJM28n5SHYrA</span></div>
+  </span>
+  <br /><br />
+  </div>
+  </h4>
+  <h3>Option 2 Refer to the browser profile directly</h3>
+  <h4>This <b>only works for yt-dlp</b>, but requires no prior set up.<br /><br />
+  The format is <span class="opt">--cookies-from-browser</span> <span class="emp">BROWSER[+KEYRING][:PROFILE]</span>, and it supports: <b>brave, chrome, chromium, edge, firefox, opera, safari,vivaldi</b>. If unspecified, it will use the last used profile.<br />
+  <br />
+  Example:
+  <div class="cmds">yt-dlp <span class="opt">--cookies-from-browser</span> <span class="emp">chrome</span> <span class="url">https://www.youtube.com/watch?v=######</span></div>
+  <div class="cmds">yt-dlp <span class="opt">--cookies-from-browser</span> <span class="emp">firefox:asd12f.default</span> <span class="url">https://www.youtube.com/watch?v=######</span></div>
+  </h4>
  <br />
 
  <h2><a id="ytaqol">ytarchive tips</a></h2>
- <h3>Stop recording before stream ends:</h3>
+ 
+  <h3><a id="ytamon">Monito a channel for livestreams</a></h3>
+  <h4>You can monitor a channel for any livestreams, even before a waiting room was created by using the following commands with a <span class="emp">/live</span> added to the <strong>channel url</strong><br />
+    <div class="cmds">ytarchive <span class="opt">--monitor-channel</span> <span class="url">https://www.youtube.com/channel/######<span class="emp">/live</span></span> <span class="opt">best</span> </div>
+	As usual, you can specify the preferred bitrate instead of using best.<br />
+	Once it finishes downloading and merging a stream, it will go right back to monitoring for the next stream.<br />
+	Make sure you keep an eye on the storage space if you plan to leave this running 24/7.
+ </h4> 
+   <br /> 
+ <h3><a id="ytastop">Stop recording before stream ends:</a></h3>
  <h4>
  If you want to stop an ongoing archive(eg, your laptop is out of battery and your oshi has left the stream), press <span class="emp">Ctrl+C</span>, and <span class="emp">y</span> on the prompt for merging files. <br />
  Make sure you leave some leeway to make sure the download have caught up to the parts you want to keep.<br />
  <img src="11-interrupt.png" alt="interrupted download" /> <br />
  </h4>
   <h2><a id="ytdqol">yt-dlp tips</a></h2>
-  <h3>Downloading live streams from the start (makeshift ytarchive)</h3>
+  <h3><a id="ytdlive">Downloading live streams from the start (makeshift ytarchive)</a></h3>
   <h4>If, for whatever reason, you cannot get ytarchive working and desperately need to download a livestream that has already begun, you can actually use yt-dlp to do it. <br />
-  However, yt-dlp will take much longer to notice a stream has ended, and it does not offer to merge a partial download for you if you want to stop the download before it decided it is finished (you can still manually merge the files).
-  <div class="cmds">yt-dlp <span class="mod">--live-from-start</span> <span class="url">https://www.youtube.com/watch?v=######</span></div>
+  However, ytachive is still the better option if avalible as yt-dlp has higher chance of fucking up the file, and will to notice a stream has ended, it also does not offer to merge a partial download if you stop the download before it decided it is finished (you can still manually merge the files).
+  <div class="cmds">yt-dlp <span class="opt">--live-from-start</span> <span class="url">https://www.youtube.com/watch?v=######</span></div>
   <br />
   </h4>
-  <h3>Config file for default settings</h3>
+  <h3><a id="ytdefault">Config file for default settings</a></h3>
   <h4>If you can't be bothered to type in your preferred settings every time you use yt-dlp, you can save your default settings by creating a config.txt<br />
   Go to <span class="emp">%appdata%</span> and create the config file under <span class="emp">%appdata%/yt-dlp/config.txt</span><br />
   <br />
   Inside the file, put in what the settings you want yt-dlp to always use unless otherwise specified.<br />
   <br />
-  For example, here is my file to (1) always using the cookies file in my main folder, (2) start livestreams from the begining, and (3) default to the best avalible mp4 (and skip the mkv-only formats):
-  <div class="cmds">--cookies <span class="emp">"C:/yt/cookies.txt"</span> --live-from-start -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]'</span> </div>
-  <br />
-  <img src="12-ytdlpconfig.gif" alt="yt-dlp config file location" /> <br /><br />
+  For example, here is what I put in mine to (1) always using the cookies file, (2) record livestreams from the start, get best bitrate mp4 preferred, and (4) embed thumbnail and metadata in the mp4:
+  <div class="cmds">--cookies "<span class="emp">C:/yt/cookies.txt</span>" --live-from-start -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" --embed-metadata --embed-thumbnail</span> </div>
+   <img src="12-ytdlpconfig.gif" alt="yt-dlp config file location" /> <br /><br />
   </h4>
-  
- <br />
   <h2><a id="bat">Using Batch(.bat) files to start commends with one click</a></h2>
+  <h4>To avoid typing the same commands over and over again, you can save your frequently used commands in <b>.bat</b> files and run them whenever needed. <br />
+  <h4>Here are some examples: <br />
+ <br /> 
+ <b>ytarchvie-prompt.bat</b> - Prompt for the URL of a stream wait for start time, use cookies.txt, embed meta data, and use highest quality avalible, and saved it in a folder called W:\Youtube Archive.
+  <div class="cmds">
+	@echo off<br />
+	TITLE ytarchive: Best Quality, Wait for Start, Use Cookies<br />
+	Echo:ytarchive: Best Quality, Wait for Start, Use Cookies<br />
+	cd /d <span class="emp">W:\Youtube Archive</span><br />
+	echo Saving the file to %CD%<br />
+	set /p yturl= "Stream URL:"<br />
+	@echo on<br />
+	ytarchive -w --cookies "<span class="emp">C:/yt/cookies.txt</span>" --add-metadata %yturl% best</br >
+  </div>
+  <br />
+  <b>ytarchive-monitor-###.bat</b> - Monitor a channel and download best avalible format when a stream starts. Once it finish downloading and saving, it'll go right back to monitor.
+  <div class="cmds">
+	@TITLE ytarchive-monitor <span class="emp">Name</span><br />
+	@cd /d <span class="emp">w:\Youtube Archive\Name</span><br />
+	ytarchive --cookies "<span class="emp">C:/yt/cookies.txt</span>" --add-metadata --monitor-channel <span class="url">https://www.youtube.com/channel/######<span class="emp">/live</span> best<br />
+  </div>
+  <br />
+  <b>ytdlp-ArchiveChannel.bat</b> - Download everything on a channel / playlist, record what has been downloaded so it can be stopped and resumed / updated, use cookies, get best quality (mp4 preferred)
+  <div class="cmds">
+	@TITLE ytarchive-monitor Full Playlist/Channel Archive<br />
+	@cd /d <span class="emp">w:\Youtube Archive\Name</span><br />
+	yt-dlp --ignore-config --cookies "<span class="emp">C:/yt/cookies.txt</span>" --download-archive "<span class="emp">C:/yt/database.txt</span>" --embed-metadata --embed-thumbnail -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" <span class="url">https://www.youtube.com/channel/######<span class="emp">
+	</div><br />
+  <b>Steps to making bat files:	</b><br />
+  <img src="15-batfile.gif" alt="steps for making .bat file" /> <br />
+  </div>
+ </h4>
 </main>
