@@ -230,22 +230,32 @@
 	echo Saving the file to %CD%<br />
 	set /p yturl= "Stream URL:"<br />
 	@echo on<br />
-	ytarchive -w --cookies "<span class="emp">C:/yt/cookies.txt</span>" --add-metadata %yturl% best</br >
+	ytarchive -w --cookies "<span class="emp">C:/yt/cookies.txt</span>" <span class="opt">--add-metadata</span> %yturl% <span class="opt">best</span></br >
   </div>
   <br />
   <b>ytarchive-monitor-###.bat</b> - Monitor a channel and download best avalible format when a stream starts. Once it finish downloading and saving, it'll go right back to monitor.
   <div class="cmds">
-	@TITLE ytarchive-monitor <span class="emp">Name</span><br />
+	@TITLE ytarchive-monitor: <span class="emp">Name</span><br />
 	@cd /d <span class="emp">w:\Youtube Archive\Name</span><br />
-	ytarchive --cookies "<span class="emp">C:/yt/cookies.txt</span>" --add-metadata --monitor-channel <span class="url">https://www.youtube.com/channel/######<span class="emp">/live</span> best<br />
+	ytarchive <span class="opt">--cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" --add-metadata --monitor-channel <span class="url">https://www.youtube.com/channel/######<span class="emp">/live</span></span> best<br />
   </div>
   <br />
   <b>ytdlp-ArchiveChannel.bat</b> - Download everything on a channel / playlist, record what has been downloaded so it can be stopped and resumed / updated, use cookies, get best quality (mp4 preferred)
   <div class="cmds">
 	@TITLE ytarchive-monitor Full Playlist/Channel Archive<br />
 	@cd /d <span class="emp">w:\Youtube Archive\Name</span><br />
-	yt-dlp --ignore-config --cookies "<span class="emp">C:/yt/cookies.txt</span>" --download-archive "<span class="emp">C:/yt/database.txt</span>" --embed-metadata --embed-thumbnail -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" <span class="url">https://www.youtube.com/channel/######<span class="emp">
-	</div><br />
+	yt-dlp <span class="opt">--ignore-config --cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" <span class="opt">--download-archive</span> "<span class="emp">C:/yt/database.txt</span>" <span class="opt">--embed-metadata --embed-thumbnail -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"</span> <span class="url">https://www.youtube.com/channel/######</span>
+	</div>
+    <br />
+  <b>yt-dlp-monitor-###.bat</b> - yt-dlp can technically monitor channel if you run it in a loop too. Again, ytarchive is recommended due to lower chance of having download issues. Only use this if you have issue getting ytarchive working.
+  <div class="cmds">
+	@TITLE yt-dlp-monitor: <span class="emp">Name</span><br />
+	@cd /d <span class="emp">w:\Youtube Archive\Name</span><br />
+	:loop<br />
+	yt-dlp <span class="opt">--cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" <span class="opt">--live-from-start --embed-metadata --embed-thumbnail</span> <span class="url">https://www.youtube.com/channel/######<span class="emp">/live</span></span> <span class="opt">best</span><br />
+	timeout /T <span class="emp">120</span><br />
+	goto loop<br />
+  </div>	<br />
   <b>Steps to making bat files:	</b><br />
   <img src="15-batfile.gif" alt="steps for making .bat file" /> <br />
   </div>
