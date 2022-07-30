@@ -256,6 +256,15 @@
 	timeout /T <span class="emp">120</span><br />
 	goto loop<br />
   </div>	<br />
+   <b>live-vod-and-chat-###.bat</b> - prompt for url and simultaneously archive the vod with ytarchive and the chatlog with yt-dlp
+  <div class="cmds">
+	TITLE Live VoD and Chat<br />
+	@echo Live VoD and Chat<br />
+	cd /d <span class="emp">w:\Youtube Archive</span><br />
+	set /p yturl= "Stream URL:"<br />
+	start cmd /k "ytarchive <span class="opt">-w --cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" <span class="opt">--add-metadata</span> %yturl% <span class="opt">best</span>"<br />
+	start cmd /k "yt-dlp <span class="opt">--cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" <span class="opt">--write-subs --sub-langs live_chat --skip-download</span> %yturl%"
+  </div>	<br />
   <b>Steps to making bat files:	</b><br />
   <img src="15-batfile.gif" alt="steps for making .bat file" /> <br />
   </div>
