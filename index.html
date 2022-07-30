@@ -230,7 +230,7 @@
 	echo Saving the file to %CD%<br />
 	set /p yturl= "Stream URL:"<br />
 	@echo on<br />
-	ytarchive -w --cookies "<span class="emp">C:/yt/cookies.txt</span>" <span class="opt">--add-metadata</span> %yturl% <span class="opt">best</span></br >
+	ytarchive <span class="opt">-w --cookies</span> "<span class="emp">C:/yt/cookies.txt</span>" <span class="opt">--add-metadata</span> %yturl% <span class="opt">best</span></br >
   </div>
   <br />
   <b>ytarchive-monitor-###.bat</b> - Monitor a channel and download best avalible format when a stream starts. Once it finish downloading and saving, it'll go right back to monitor.
