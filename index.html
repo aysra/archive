@@ -109,10 +109,12 @@
   </h4>
   <h3>ytarchive - <a href="https://github.com/Kethsar/ytarchive">https://github.com/Kethsar/ytarchive</a></h3>
   <h4>Easiest tool to monitor channels for live streams and download from the start even if you start half way.<br /></h4>
+  <h3>streamlink - <a href="https://github.com/streamlink/windows-builds/releases">https://github.com/streamlink/windows-builds/release</a></h3>
+  <h4>Get this if you need to archive Twitch/Bilibili livestreams, otherwise the above two works better with youtube. When in doubt, see <a href="https://streamlink.github.io/install.html#windows-binaries">here</a> for which version (if you don't know which is which, you most likely want the x86_64.exe one)<br />
 
   <br /> 
   <h2><a id="install">Installation</a></h2>
-  <h3>Step 1: Extract all the above to an easily accessable folder. </h3>
+  <h3>Step 1: Extract ytarchive and yt-dlp to an easily accessable folder. </h3>
   <h4>Personally I prefer to keeping them all in the same place, for example: <strong>C:\yt\</strong><br /> 
   
   <h3>Step 2: Set up PATH to the folder (To run the exe from any location)</h3>
@@ -122,12 +124,13 @@
   <img src="02-enviornment variable.png" alt="getting to environment variables" />
   <img src="03-PATH.png" alt="path settings in environment variables" />
   </h4>
-  
+  <h3>Streamlink comes with its own installer</h3>
+  <h4>Get the exe file, it'll install all the necessary parts, set the path and create the config file for you.</h4> 
   <br />
    
   <h2><a id="basic">Basic Usage</a></h2>
   
-  <h3>Archiving ongoing streams using ytarchive</h3>
+  <h3>Archiving ongoing youtube streams using ytarchive</h3>
   <h4>Browse to the folder you want to save the vod to. Type "cmd" in the address bar to open the command prompt. <br />
   <img src="04-cmd.gif" alt="cmd prompt from file explorer " /> <br /><br />
   Type in the following commands and follow the prompt:
@@ -146,9 +149,21 @@
   <span class="opt indent">--extract-audio --audio-format</span> <span class="emp">mp3</span> - extract audio into mp3/aac/m4a/opus/vorbis/flac/alac/wav. </span><br />
   <span class="opt indent">--download-sections</span> <span class="emp">"  <b>*</b>30:15-55:00"</span> - download only the selected time portion of a vod. Keep the * before the time range.<br />
   <span class="opt indent">--write-subs --sub-langs live_chat</span> - download the chat record in a .json file.<br />
-
+  Despite the name, yt-dlp can be used to download vods from almost every sevice under the sun, including Bilibili and Twitch - only after they finished processing tho, for livestreams use ytarchive and streamlink. 
   <br />
+  <br />
+  
+ <h3>Archiving ongoing twitch/bilibili streams using streamlink</h3>
+  <h4>Like with ytarchive, start a command prompt in the folder you want to save the file in, type in the following commands:<br />
+  Type in the following commands and follow the prompt:
+  <div class="cmds">streamlink <span class="opt">-o</span> <span class="emp">{author}-{title}({id}).mp4</span> <span class="opt">--twitch-disable-ads --twitch-disable-hosting</span> <span class="url">https://www.twitch.tv/######</span> <span class="opt">720p,720p60,best</span></div>
+ Twich streams tends to be long, I'd recommend grabbing 720p or lower to save space, feel free to change that to just "best" if you have tons of space. Make sure you keep the --twitch-disable-ads to avoid video getting stuck on ads. <br />
+ <br >
+For Bilibili (The site doesn't seems to be working for me right now due to silly WW3 things... pretty sure this command would work tho.):  
+ <div class="cmds">streamlink <span class="opt">-o</span> <span class="emp">name-your-file.mp4</span> <span class="url">https://live.bilibili.com/####</span> <span class="opt">best</span></div>
  
+ <br />
+  <br /> 
   </h4>
   
   <h2><a id="cookies">Cookies for members-only streams</a></h2>
@@ -218,7 +233,7 @@
    <img src="12-ytdlpconfig.gif" alt="yt-dlp config file location" /> <br /><br />
   </h4>
   <h2><a id="bat">Using Batch(.bat) files to start commends with one click</a></h2>
-  <h4>To avoid typing the same commands over and over again, you can save your frequently used commands in <b>.bat</b> files and run them whenever needed. <br />
+  <h4>To avoid typing the same commands over and over again, you can save your frequently used commands in <b>.bat</b> files and run them whenever needed. Scroll down for gif showing how to create .bat files.<br />
   <h4>Here are some examples: <br />
  <br /> 
  <b>ytarchvie-prompt.bat</b> - Prompt for the URL of a stream wait for start time, use cookies.txt, embed meta data, and use highest quality avalible, and saved it in a folder called W:\Youtube Archive.
@@ -256,6 +271,18 @@
 	timeout /T <span class="emp">120</span><br />
 	goto loop<br />
   </div>	<br />
+  
+  <b>streamlink-monitor-###.bat</b> - streamlink to monitor twitch/bilibi channels (it can technically monitor youtube live streams too, but again, use ytarchive for that if you can)
+  <div class="cmds">
+	@TITLE streamlink-monitor: <span class="emp">Name</span><br />
+	@cd /d <span class="emp">w:\Youtube Archive\Name</span><br />
+	:loop<br />
+	streamlink -o "<span class="emp">{author}-{title}({id})-{time:%%Y%%m%%d-%%H%%M}.mp4</span>" <span class="url">https://www.twitch.tv/<span class="emp">####</span></span> <span class="opt">720p,720p60,best --twitch-disable-hosting --twitch-disable-ads</span><br />
+	timeout /T <span class="emp">120</span><br />
+	goto loop<br />
+  </div>	  
+  <br />
+  
    <b>live-vod-and-chat-###.bat</b> - prompt for url and simultaneously archive the vod with ytarchive and the chatlog with yt-dlp
   <div class="cmds">
 	TITLE Live VoD and Chat<br />
